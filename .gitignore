@@ -1,1 +1,3 @@
 /docker/db/data/
+/docker/api/waco
+/docker/api/go.sum
