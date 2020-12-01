@@ -11,7 +11,7 @@ func ConnectDB() *gorm.DB {
 	DBMS := "mysql"
 	USER := "root"
 	PASS := "root"
-	PROTOCOL := "tcp(172.20.0.3:3306)"
+	PROTOCOL := "tcp(mysql:3306)"
 	DBNAME := "room_status"
 
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME

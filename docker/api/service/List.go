@@ -8,7 +8,7 @@ import (
 	"github.com/labstack/echo"
 )
 
-func CurrentUsers(context echo.Context) error {
+func ListUsers(context echo.Context) error {
 	db := ConnectDB()
 	defer db.Close()
 

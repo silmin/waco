@@ -13,7 +13,7 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	e.GET("/", service.CurrentUsers)
+	e.GET("/", service.ListUsers)
 
 	e.Start(":80")
 }
