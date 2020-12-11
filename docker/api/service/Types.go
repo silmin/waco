@@ -1,7 +1,7 @@
 package service
 
 type User struct {
-	Id          int    `json:"id"`
+	CardNo      string `json:"card_no"`
 	DisplayName string `json:"display_name"`
 	FullName    string `json:"full_name"`
 	Email       string `json:"email"`
