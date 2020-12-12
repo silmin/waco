@@ -13,7 +13,9 @@ func GetAllUsers(context echo.Context) error {
 	defer db.Close()
 
 	users := []User{}
-	db.Find(&users)
+	if err := db.Find(&users).Error; err != nil {
+		return err
+	}
 
 	fmt.Println("All Users:", users)
 
@@ -28,7 +30,9 @@ func GetUser(context echo.Context) error {
 	cardNo := context.Param("cardNo")
 
 	user := User{}
-	db.Find(&user, "card_no=?", cardNo)
+	if err := db.Find(&user, "card_no=?", cardNo).Error; err != nil {
+		return err
+	}
 
 	fmt.Println("Get User:", user)
 
@@ -47,7 +51,9 @@ func RegisterUser(context echo.Context) error {
 
 	user.CardNo = context.Param("cardNo")
 
-	db.Create(&user)
+	if err := db.Create(&user).Error; err != nil {
+		return err
+	}
 
 	fmt.Println("Create User:", user)
 
@@ -60,7 +66,9 @@ func DeleteUser(context echo.Context) error {
 	defer db.Close()
 
 	cardNo := context.Param("cardNo")
-	db.Where("card_no=?", cardNo).Delete(&User{})
+	if err := db.Where("card_no=?", cardNo).Delete(&User{}).Error; err != nil {
+		return err
+	}
 
 	fmt.Println("Delete User No:", cardNo)
 

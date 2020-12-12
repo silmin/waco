@@ -13,7 +13,9 @@ func GetCurrentUsers(context echo.Context) error {
 	defer db.Close()
 
 	currentUser := []CurrentUser{}
-	db.Find(&currentUser)
+	if err := db.Find(&currentUser).Error; err != nil {
+		return err
+	}
 
 	fmt.Println("CurrentUsers: ", currentUser)
 
@@ -26,7 +28,9 @@ func PushCurrentUser(context echo.Context) error {
 	defer db.Close()
 
 	currentUser := CurrentUser{CardNo: context.Param("cardNo")}
-	db.Create(&currentUser)
+	if err := db.Create(&currentUser).Error; err != nil {
+		return err
+	}
 
 	fmt.Println("Push User:", currentUser)
 
@@ -39,7 +43,9 @@ func DeleteCurrentUser(context echo.Context) error {
 	defer db.Close()
 
 	cardNo := context.Param("cardNo")
-	db.Where("card_no=?", cardNo).Delete(&CurrentUser{})
+	if err := db.Where("card_no=?", cardNo).Delete(&CurrentUser{}).Error; err != nil {
+		return err
+	}
 
 	fmt.Println("Delete CurrentUser No:", cardNo)
 
