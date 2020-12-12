@@ -5,13 +5,13 @@ import "fmt"
 type WebhookEventEnum int
 
 const (
-	GetAllUsersEventEnum WebhookEventEnum = iota
-	GetUserEventEnum
-	RegisterUserEventEnum
-	DeleteUserEventEnum
-	GetCurrentUsersEventEnum
-	PushCurrentUserEventEnum
-	DeleteCurrentUserEventEnum
+	GetAllUsersEvent WebhookEventEnum = iota
+	GetUserEvent
+	RegisterUserEvent
+	DeleteUserEvent
+	GetCurrentUsersEvent
+	PushCurrentUserEvent
+	DeleteCurrentUserEvent
 )
 
 func (e WebhookEventEnum) String() string {
@@ -19,23 +19,23 @@ func (e WebhookEventEnum) String() string {
 }
 
 var toString = map[WebhookEventEnum]string{
-	GetAllUsersEventEnum:       "GetAllUsersEvent",
-	GetUserEventEnum:           "GetUserEvent",
-	RegisterUserEventEnum:      "RegisterUserEvent",
-	DeleteUserEventEnum:        "DeleteUserEvent",
-	GetCurrentUsersEventEnum:   "GetCurrentUsersEvent",
-	PushCurrentUserEventEnum:   "PushCurrentUserEvent",
-	DeleteCurrentUserEventEnum: "DeleteCurrentUserEvent",
+	GetAllUsersEvent:       "GetAllUsersEvent",
+	GetUserEvent:           "GetUserEvent",
+	RegisterUserEvent:      "RegisterUserEvent",
+	DeleteUserEvent:        "DeleteUserEvent",
+	GetCurrentUsersEvent:   "GetCurrentUsersEvent",
+	PushCurrentUserEvent:   "PushCurrentUserEvent",
+	DeleteCurrentUserEvent: "DeleteCurrentUserEvent",
 }
 
 var toID = map[string]WebhookEventEnum{
-	"GetAllUsersEvent":       GetAllUsersEventEnum,
-	"GetUserEvent":           GetUserEventEnum,
-	"RegisterUserEvent":      RegisterUserEventEnum,
-	"DeleteUserEvent":        DeleteUserEventEnum,
-	"GetCurrentUsersEvent":   GetCurrentUsersEventEnum,
-	"PushCurrentUserEvent":   PushCurrentUserEventEnum,
-	"DeleteCurrentUserEvent": DeleteCurrentUserEventEnum,
+	"GetAllUsersEvent":       GetAllUsersEvent,
+	"GetUserEvent":           GetUserEvent,
+	"RegisterUserEvent":      RegisterUserEvent,
+	"DeleteUserEvent":        DeleteUserEvent,
+	"GetCurrentUsersEvent":   GetCurrentUsersEvent,
+	"PushCurrentUserEvent":   PushCurrentUserEvent,
+	"DeleteCurrentUserEvent": DeleteCurrentUserEvent,
 }
 
 func (e *WebhookEventEnum) UnmarshalYAML(unmarshal func(interface{}) error) error {
