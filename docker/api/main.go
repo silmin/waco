@@ -1,13 +1,26 @@
 package main
 
 import (
+	"fmt"
+	"log"
+
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 
 	"eleuth/waco/service"
+	"eleuth/waco/service/webhook"
 )
 
 func main() {
+	var err error
+	webhook.WebhookRules, err = webhook.ImportWebhookRules()
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
+	fmt.Println("WebhookRule: ", webhook.WebhookRules)
+
 	e := echo.New()
 
 	e.Use(middleware.Logger())

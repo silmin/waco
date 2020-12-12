@@ -1,0 +1,6 @@
+- name: test-webhook-3
+  event: GetAllUsersEvent
+  url: http://hogefuga
+  params:
+      hoge: fuga
+      foo: bar

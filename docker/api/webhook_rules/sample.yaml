@@ -1,0 +1,12 @@
+- name: test-webhook-1
+  event: GetAllUsersEvent
+  url: http://hogefuga
+  params:
+      hoge: fuga
+      foo: bar
+- name: test-webhook-2
+  event: GetAllUsersEvent
+  url: http://hogefuga
+  params:
+      hoge: fuga
+      foo: bar
