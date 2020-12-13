@@ -15,10 +15,10 @@ const (
 )
 
 func (e WebhookEventEnum) String() string {
-	return toString[e]
+	return toEventString[e]
 }
 
-var toString = map[WebhookEventEnum]string{
+var toEventString = map[WebhookEventEnum]string{
 	GetAllUsersEvent:       "GetAllUsersEvent",
 	GetUserEvent:           "GetUserEvent",
 	RegisterUserEvent:      "RegisterUserEvent",
@@ -28,7 +28,7 @@ var toString = map[WebhookEventEnum]string{
 	DeleteCurrentUserEvent: "DeleteCurrentUserEvent",
 }
 
-var toID = map[string]WebhookEventEnum{
+var toEventID = map[string]WebhookEventEnum{
 	"GetAllUsersEvent":       GetAllUsersEvent,
 	"GetUserEvent":           GetUserEvent,
 	"RegisterUserEvent":      RegisterUserEvent,
@@ -44,7 +44,7 @@ func (e *WebhookEventEnum) UnmarshalYAML(unmarshal func(interface{}) error) erro
 		return err
 	}
 
-	if wee, ok := toID[data.(string)]; ok {
+	if wee, ok := toEventID[data.(string)]; ok {
 		*e = wee
 	} else {
 		return fmt.Errorf("invalid WebhookEventEnum value '%s'", data.(string))
