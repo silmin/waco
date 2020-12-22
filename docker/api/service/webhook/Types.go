@@ -2,16 +2,23 @@ package webhook
 
 import "fmt"
 
+type WebhookRule struct {
+	Name   string                 `yaml:"name"`
+	Event  WebhookEventEnum       `yaml:"event"`
+	Url    string                 `yaml:"url"`
+	Method WebhookMethodEnum      `yaml:"method"`
+	Params map[string]interface{} `yaml:"params"`
+}
+
+var WebhookRules []WebhookRule
+
 type WebhookEventEnum int
 
 const (
-	GetAllUsersEvent WebhookEventEnum = iota
-	GetUserEvent
-	RegisterUserEvent
+	RegisterUserEvent WebhookEventEnum = iota
 	DeleteUserEvent
-	GetCurrentUsersEvent
 	PushCurrentUserEvent
-	DeleteCurrentUserEvent
+	PopCurrentUserEvent
 )
 
 func (e WebhookEventEnum) String() string {
@@ -19,23 +26,17 @@ func (e WebhookEventEnum) String() string {
 }
 
 var toEventString = map[WebhookEventEnum]string{
-	GetAllUsersEvent:       "GetAllUsersEvent",
-	GetUserEvent:           "GetUserEvent",
-	RegisterUserEvent:      "RegisterUserEvent",
-	DeleteUserEvent:        "DeleteUserEvent",
-	GetCurrentUsersEvent:   "GetCurrentUsersEvent",
-	PushCurrentUserEvent:   "PushCurrentUserEvent",
-	DeleteCurrentUserEvent: "DeleteCurrentUserEvent",
+	RegisterUserEvent:    "RegisterUserEvent",
+	DeleteUserEvent:      "DeleteUserEvent",
+	PushCurrentUserEvent: "PushCurrentUserEvent",
+	PopCurrentUserEvent:  "PopCurrentUserEvent",
 }
 
 var toEventID = map[string]WebhookEventEnum{
-	"GetAllUsersEvent":       GetAllUsersEvent,
-	"GetUserEvent":           GetUserEvent,
-	"RegisterUserEvent":      RegisterUserEvent,
-	"DeleteUserEvent":        DeleteUserEvent,
-	"GetCurrentUsersEvent":   GetCurrentUsersEvent,
-	"PushCurrentUserEvent":   PushCurrentUserEvent,
-	"DeleteCurrentUserEvent": DeleteCurrentUserEvent,
+	"RegisterUserEvent":    RegisterUserEvent,
+	"DeleteUserEvent":      DeleteUserEvent,
+	"PushCurrentUserEvent": PushCurrentUserEvent,
+	"PopCurrentUserEvent":  PopCurrentUserEvent,
 }
 
 func (e *WebhookEventEnum) UnmarshalYAML(unmarshal func(interface{}) error) error {
@@ -53,11 +54,38 @@ func (e *WebhookEventEnum) UnmarshalYAML(unmarshal func(interface{}) error) erro
 	return nil
 }
 
-type WebhookRule struct {
-	Name   string                 `yaml:"name"`
-	Event  WebhookEventEnum       `yaml:"event"`
-	Url    string                 `yaml:"url"`
-	Params map[string]interface{} `yaml:"params"`
+type WebhookMethodEnum int
+
+const (
+	WebhookGET WebhookMethodEnum = iota
+	WebhookPOST
+)
+
+func (e WebhookMethodEnum) String() string {
+	return toMethodString[e]
 }
 
-var WebhookRules []WebhookRule
+var toMethodString = map[WebhookMethodEnum]string{
+	WebhookGET:  "GET",
+	WebhookPOST: "POST",
+}
+
+var toMethodID = map[string]WebhookMethodEnum{
+	"GET":  WebhookGET,
+	"POST": WebhookPOST,
+}
+
+func (e *WebhookMethodEnum) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	var data interface{}
+	if err := unmarshal(&data); err != nil {
+		return err
+	}
+
+	if wme, ok := toMethodID[data.(string)]; ok {
+		*e = wme
+	} else {
+		return fmt.Errorf("invalid WebhookMethodEnum value '%s'", data.(string))
+	}
+
+	return nil
+}
