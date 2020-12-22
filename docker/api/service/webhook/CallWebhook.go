@@ -2,6 +2,7 @@ package webhook
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -9,7 +10,7 @@ import (
 	"eleuth/waco/service/room_user"
 )
 
-func CallWebhook(webhookEvent WebhookEventEnum, user room_user.User) []error {
+func CallWebhook(webhookEvent WebhookEventEnum, user room_user.User) {
 	var errs []error
 	for _, rule := range WebhookRules {
 		if rule.Event == webhookEvent {
@@ -22,10 +23,9 @@ func CallWebhook(webhookEvent WebhookEventEnum, user room_user.User) []error {
 			}
 		}
 	}
-	if len(errs) == 0 {
-		return nil
-	} else {
-		return errs
+
+	if len(errs) != 0 {
+		log.Fatal(errs)
 	}
 }
 

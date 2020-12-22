@@ -48,7 +48,7 @@ func RegisterUser(context echo.Context) error {
 	defer db.Close()
 
 	user := room_user.User{}
-	if err := context.Bind(user); err != nil {
+	if err := context.Bind(&user); err != nil {
 		return err
 	}
 
@@ -60,10 +60,7 @@ func RegisterUser(context echo.Context) error {
 
 	fmt.Println("Create User:", user)
 
-	if errs := webhook.CallWebhook(webhook.RegisterUserEvent, user); errs != nil {
-		fmt.Println(errs)
-		return errs[0]
-	}
+	go webhook.CallWebhook(webhook.RegisterUserEvent, user)
 
 	json_data, _ := json.Marshal(user)
 	return context.String(http.StatusOK, string(json_data))
@@ -85,10 +82,7 @@ func DeleteUser(context echo.Context) error {
 
 	fmt.Println("Delete User No:", cardNo)
 
-	if errs := webhook.CallWebhook(webhook.DeleteUserEvent, user); errs != nil {
-		fmt.Println(errs)
-		return errs[0]
-	}
+	go webhook.CallWebhook(webhook.DeleteUserEvent, user)
 
 	return context.String(http.StatusOK, string(""))
 }
@@ -125,10 +119,7 @@ func PushCurrentUser(context echo.Context) error {
 
 	fmt.Println("Push User:", currentUser)
 
-	if errs := webhook.CallWebhook(webhook.PushCurrentUserEvent, user); errs != nil {
-		fmt.Println(errs)
-		return errs[0]
-	}
+	go webhook.CallWebhook(webhook.PushCurrentUserEvent, user)
 
 	json_data, _ := json.Marshal(currentUser)
 	return context.String(http.StatusOK, string(json_data))
@@ -150,10 +141,7 @@ func PopCurrentUser(context echo.Context) error {
 
 	fmt.Println("Pop CurrentUser No:", cardNo)
 
-	if errs := webhook.CallWebhook(webhook.PopCurrentUserEvent, user); errs != nil {
-		fmt.Println(errs)
-		return errs[0]
-	}
+	go webhook.CallWebhook(webhook.PopCurrentUserEvent, user)
 
 	return context.String(http.StatusOK, string(""))
 }
