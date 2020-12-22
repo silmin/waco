@@ -1,4 +1,4 @@
-package service
+package room_user
 
 type User struct {
 	CardNo      string `json:"card_no" form:"card_no" query:"card_no" gorm:"primaryKey"`

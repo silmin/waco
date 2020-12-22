@@ -33,7 +33,7 @@ func main() {
 
 	e.GET("/currents", service.GetCurrentUsers)
 	e.PUT("/currents/:cardNo", service.PushCurrentUser)
-	e.DELETE("/currents/:cardNo", service.DeleteCurrentUser)
+	e.DELETE("/currents/:cardNo", service.PopCurrentUser)
 
 	e.Start(":80")
 }
