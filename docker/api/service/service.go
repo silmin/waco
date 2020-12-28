@@ -7,12 +7,13 @@ import (
 
 	"github.com/labstack/echo"
 
+	"eleuth/waco/service/registry"
 	"eleuth/waco/service/room_user"
 	"eleuth/waco/service/webhook"
 )
 
 func GetAllUsers(context echo.Context) error {
-	db := ConnectDB()
+	db := registry.ConnectDB()
 	defer db.Close()
 
 	users := []room_user.User{}
@@ -27,7 +28,7 @@ func GetAllUsers(context echo.Context) error {
 }
 
 func GetUser(context echo.Context) error {
-	db := ConnectDB()
+	db := registry.ConnectDB()
 	defer db.Close()
 
 	cardNo := context.Param("cardNo")
@@ -44,7 +45,7 @@ func GetUser(context echo.Context) error {
 }
 
 func RegisterUser(context echo.Context) error {
-	db := ConnectDB()
+	db := registry.ConnectDB()
 	defer db.Close()
 
 	user := room_user.User{}
@@ -67,7 +68,7 @@ func RegisterUser(context echo.Context) error {
 }
 
 func DeleteUser(context echo.Context) error {
-	db := ConnectDB()
+	db := registry.ConnectDB()
 	defer db.Close()
 
 	cardNo := context.Param("cardNo")
@@ -88,7 +89,7 @@ func DeleteUser(context echo.Context) error {
 }
 
 func GetCurrentUsers(context echo.Context) error {
-	db := ConnectDB()
+	db := registry.ConnectDB()
 	defer db.Close()
 
 	currentUser := []room_user.CurrentUser{}
@@ -103,7 +104,7 @@ func GetCurrentUsers(context echo.Context) error {
 }
 
 func PushCurrentUser(context echo.Context) error {
-	db := ConnectDB()
+	db := registry.ConnectDB()
 	defer db.Close()
 
 	cardNo := context.Param("cardNo")
@@ -126,7 +127,7 @@ func PushCurrentUser(context echo.Context) error {
 }
 
 func PopCurrentUser(context echo.Context) error {
-	db := ConnectDB()
+	db := registry.ConnectDB()
 	defer db.Close()
 
 	user := room_user.User{}
