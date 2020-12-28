@@ -1,12 +1,12 @@
 - name: test-webhook-1
-  event: GetAllUsersEvent
+  event: RegisterUserEvent
   url: http://hogefuga
   method: GET
   params:
       hoge: fuga
       foo: bar
 - name: test-webhook-2
-  event: GetUserEvent
+  event: RegisterUserEvent
   url: http://hogefuga
   method: POST
   params:

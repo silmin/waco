@@ -1,5 +1,5 @@
 - name: test-webhook-3
-  event: GetAllUsersEvent
+  event: RegisterUserEvent
   url: http://hogefuga
   method: GET
   params:
