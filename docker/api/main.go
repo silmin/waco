@@ -3,16 +3,29 @@ package main
 import (
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 
 	"eleuth/waco/service"
+	"eleuth/waco/service/registry"
 	"eleuth/waco/service/webhook"
 )
 
 func main() {
 	var err error
+	for {
+		if err = registry.CreateSchema(); err != nil {
+			fmt.Println(err)
+			fmt.Println("mysql is unavailable - sleeping")
+			time.Sleep(time.Second)
+			fmt.Println("reconnecting to mysql ...")
+		} else {
+			break
+		}
+	}
+
 	webhook.WebhookRules, err = webhook.ImportWebhookRules()
 	if err != nil {
 		log.Fatal(err)

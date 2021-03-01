@@ -1,11 +1,5 @@
 version: '2'
 
-networks:
-    web_network:
-        ipam:
-            config:
-                - subnet: 172.20.0.0/24
-
 services:
     mysql:
         image: mysql:5.7
@@ -22,11 +16,10 @@ services:
             - ./docker/db/sql:/docker-entrypoint-initdb.d
         ports:
             - 3306:3306
-        networks:
-            web_network:
-                ipv4_address: 172.20.0.3
 
     phpmyadmin:
+        depends_on:
+            - mysql
         container_name: phpmyadmin
         image: phpmyadmin/phpmyadmin
         environment:
@@ -36,18 +29,13 @@ services:
             PMA_PASSWORD: root
         ports:
             - 8080:80
-        networks:
-            web_network:
-                ipv4_address: 172.20.0.4
 
     web:
+        depends_on:
+            - mysql
         container_name: web
         build:
             context: ./docker/api
             dockerfile: Dockerfile
         ports:
             - 80:80
-        networks:
-            web_network:
-                ipv4_address: 172.20.0.5
-
