@@ -25,7 +25,9 @@ func CallWebhook(webhookEvent WebhookEventEnum, user room_user.User) {
 	}
 
 	if len(errs) != 0 {
-		log.Fatal(errs)
+		for _, err := range errs {
+			log.Println(err)
+		}
 	}
 }
 
