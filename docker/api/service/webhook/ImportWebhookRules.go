@@ -1,8 +1,8 @@
 package webhook
 
 import (
-	"fmt"
 	"io/ioutil"
+	"log"
 	"path/filepath"
 
 	"github.com/go-yaml/yaml"
@@ -31,7 +31,7 @@ func getRuleFilePaths(dir string) ([]string, error) {
 }
 
 func ImportWebhookRules() ([]WebhookRule, error) {
-	fmt.Println("--import webhook config--")
+	log.Println("--import webhook config--")
 
 	ruleFilePaths, err := getRuleFilePaths("/app/webhook_rules/")
 	var webhookRules []WebhookRule

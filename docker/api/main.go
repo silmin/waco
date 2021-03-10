@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"time"
 
@@ -17,10 +16,10 @@ func main() {
 	var err error
 	for {
 		if err = registry.CreateSchema(); err != nil {
-			fmt.Println(err)
-			fmt.Println("mysql is unavailable - sleeping")
+			log.Println(err)
+			log.Println("mysql is unavailable - sleeping")
 			time.Sleep(time.Second)
-			fmt.Println("reconnecting to mysql ...")
+			log.Println("reconnecting to mysql ...")
 		} else {
 			break
 		}
@@ -31,8 +30,9 @@ func main() {
 		log.Fatal(err)
 		return
 	}
-
-	fmt.Println("WebhookRule: ", webhook.WebhookRules)
+	for _, rule := range webhook.WebhookRules {
+		log.Println("WebhookRule: ", rule)
+	}
 
 	e := echo.New()
 

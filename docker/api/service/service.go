@@ -2,7 +2,7 @@ package service
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -21,7 +21,7 @@ func GetAllUsers(context echo.Context) error {
 		return err
 	}
 
-	fmt.Println("All Users:", users)
+	log.Println("All Users:", users)
 
 	json_data, _ := json.Marshal(users)
 	return context.String(http.StatusOK, string(json_data))
@@ -38,7 +38,7 @@ func GetUser(context echo.Context) error {
 		return err
 	}
 
-	fmt.Println("Get User:", user)
+	log.Println("Get User:", user)
 
 	json_data, _ := json.Marshal(user)
 	return context.String(http.StatusOK, string(json_data))
@@ -59,7 +59,7 @@ func RegisterUser(context echo.Context) error {
 		return err
 	}
 
-	fmt.Println("Create User:", user)
+	log.Println("Create User:", user)
 
 	go webhook.CallWebhook(webhook.RegisterUserEvent, user)
 
@@ -81,7 +81,7 @@ func DeleteUser(context echo.Context) error {
 		return err
 	}
 
-	fmt.Println("Delete User No:", cardNo)
+	log.Println("Delete User No:", cardNo)
 
 	go webhook.CallWebhook(webhook.DeleteUserEvent, user)
 
@@ -97,7 +97,7 @@ func GetCurrentUsers(context echo.Context) error {
 		return err
 	}
 
-	fmt.Println("CurrentUsers: ", currentUser)
+	log.Println("CurrentUsers: ", currentUser)
 
 	json_data, _ := json.Marshal(currentUser)
 	return context.String(http.StatusOK, string(json_data))
@@ -118,7 +118,7 @@ func PushCurrentUser(context echo.Context) error {
 		return err
 	}
 
-	fmt.Println("Push User:", currentUser)
+	log.Println("Push User:", currentUser)
 
 	go webhook.CallWebhook(webhook.PushCurrentUserEvent, user)
 
@@ -140,7 +140,7 @@ func PopCurrentUser(context echo.Context) error {
 		return err
 	}
 
-	fmt.Println("Pop CurrentUser No:", cardNo)
+	log.Println("Pop CurrentUser No:", cardNo)
 
 	go webhook.CallWebhook(webhook.PopCurrentUserEvent, user)
 
