@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: waco-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: waco-web
+  template:
+    metadata:
+      labels:
+        app: waco-web
+    spec:
+      containers:
+      - image: beatrice.eleuth/service/waco
+        name: waco
+        ports:
+        - name: web
+          containerPort: 80
+        env:
+        - name: MYSQL_HOST
+          value: mysql-svc.waco
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: waco-web-svc
+  namespace: waco
+  labels:
+    app: waco-web-svc
+spec:
+  ports:
+  - name: web
+    protocol: TCP
+    port: 80
+    targetPort: 80
+  selector:
+    app: waco-web
+  type: LoadBalancer

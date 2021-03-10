@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: waco-mysql-statefulset
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: waco-mysql
+  serviceName: "waco-mysql-service"
+  template:
+    metadata:
+      labels:
+        app: waco-mysql
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mysql
+          image: mysql:5.7
+          ports:
+          - name: mysql
+            containerPort: 3306
+          volumeMounts:
+          - name: waco-mysql-pvc
+            mountPath: /var/lib/mysql
+          env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: root
+          - name: MYSQL_DATABASE
+            value: root_status
+          - name: MYSQL_USER
+            value: docker
+          - name: MYSQL_PASSWORD
+            value: qwer1234
+          - name: TZ
+            value: Asia/Tokyo
+  volumeClaimTemplates:
+  - metadata:
+      name: waco-mysql-pvc
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "longhorn"
+      resources:
+        requests:
+          storage: 2Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-svc
+spec:
+  ports:
+    - name: mysql
+      port: 3306
+      targetPort: 3306
+  clusterIP: None
+  selector:
+    app: waco-mysql

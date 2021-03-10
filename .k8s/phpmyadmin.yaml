@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phpmyadmin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phpmyadmin
+  template:
+    metadata:
+      labels:
+        app: phpmyadmin
+    spec:
+      containers:
+      - image: phpmyadmin/phpmyadmin
+        name: phpmyadmin
+        ports:
+        - name: web
+          containerPort: 80
+        env:
+        - name: PMA_ARBITARY
+          value: 1
+        - name: PMA_HOSTS
+          value: mysql-svc.waco
+        - name: PMA_USER
+          value: root
+        - name: PMA_PASSWORD
+          value: root
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: phpmyadmin-svc
+  namespace: waco
+  labels:
+    app: phpmyadmin-svc
+spec:
+  ports:
+  - name: web
+    protocol: TCP
+    port: 80
+    targetPort: 80
+  selector:
+    app: phpmyadmin
+  type: LoadBalancer

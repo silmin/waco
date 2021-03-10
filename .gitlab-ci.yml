@@ -1,0 +1,71 @@
+stages:
+    - lint
+    - build
+    - sync
+    - deploy
+
+# all job default
+# default:
+#     image:
+#         - ubuntu:20.04
+#     before_script:
+#         - echo "before script!"
+#         - echo "set env, login cmd tool ..."
+#     after_script:
+#         - echo "after acript!"
+#         - echo "clear env, logout cmd tool ..."
+
+variables:
+    APP_NAME: "waco"
+    REGISTRY_REPO: "service/waco"
+    INTERNAL_REGISTRY: "gitlab.eleuth:5000"
+    INTERNAL_REGISTRY_URL: "http://$INTERNAL_REGISTRY/$REGISTRY_REPO"
+    REMOTE_REGISTRY: "beatrice.eleuth"
+    REMOTE_REGISTRY_URL: "http://$REMOTE_REGISTRY/$REGISTRY_REPO"
+    GITLAB: "gitlab.eleuth"
+    GITLAB_REPO: "eleuth/waco"
+    GITLAB_URL: "http://$GITLAB/$GITLAB_REPO"
+
+# hide job
+.lint-base:
+    image: beatrice.eleuth/runner-base/kubeval-alpine
+    stage: lint
+    only:
+        - pushes
+
+.build-base:
+    image:
+        name: gcr.io/kaniko-project/executor:debug
+        entrypoint: [""]
+    stage: build
+
+lint-yaml:
+    extends:
+        - .lint-base
+    script:
+        - ./.ci-scripts/lint.sh
+
+build-app:
+    extends:
+        - .build-base
+    script:
+        - ./.ci-scripts/build.sh
+    when: on_success
+
+sync-image:
+    image: beatrice.eleuth/runner-base/nettool-ubuntu
+    stage: sync
+    script:
+        - ./.ci-scripts/sync.sh
+    only:
+        - master
+
+deploy-app:
+    stage: deploy
+    script:
+        - ./.ci-scripts/deploy.sh
+    when: manual
+    only:
+        - master
+    tags:
+        - k8s
