@@ -2,7 +2,7 @@ package registry
 
 import (
 	"database/sql"
-	"fmt"
+	"log"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -31,7 +31,7 @@ func CreateSchema() error {
 	if err != nil {
 		return err
 	}
-	fmt.Println("create 'users' table")
+	log.Println("create 'users' table")
 
 	create_table = `
 	create table if not exists current_users (
@@ -45,7 +45,7 @@ func CreateSchema() error {
 	if err != nil {
 		return err
 	}
-	fmt.Println("create 'current_users' table")
+	log.Println("create 'current_users' table")
 
 	return nil
 }

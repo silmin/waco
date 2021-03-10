@@ -1,7 +1,7 @@
 package registry
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -18,7 +18,7 @@ func ConnectDB() *gorm.DB {
 	db, err := gorm.Open(DBMS, CONNECT)
 
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		panic(err.Error())
 	}
 	return db

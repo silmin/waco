@@ -1,7 +1,6 @@
 package webhook
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -14,7 +13,7 @@ func CallWebhook(webhookEvent WebhookEventEnum, user room_user.User) {
 	var errs []error
 	for _, rule := range WebhookRules {
 		if rule.Event == webhookEvent {
-			fmt.Println("Call Webhook: ", rule)
+			log.Println("Call Webhook: ", rule)
 			switch rule.Method {
 			case WebhookGET:
 				errs = append(errs, CallWebhookGET(rule, user))
