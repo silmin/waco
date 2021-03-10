@@ -37,5 +37,7 @@ services:
         build:
             context: ./docker/api
             dockerfile: Dockerfile
+        environment:
+            MYSQL_HOST: mysql
         ports:
             - 80:80

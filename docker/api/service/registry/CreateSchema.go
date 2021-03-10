@@ -2,16 +2,20 @@ package registry
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
+	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func CreateSchema() error {
+	dbHost := os.Getenv("MYSQL_HOST")
+
 	DBMS := "mysql"
 	USER := "root"
 	PASS := "root"
-	PROTOCOL := "tcp(mysql:3306)"
+	PROTOCOL := fmt.Sprintf("tcp(%s:3306)", dbHost)
 	DBNAME := "room_status"
 
 	con, err := sql.Open(DBMS, USER+":"+PASS+"@"+PROTOCOL+"/"+DBNAME)
