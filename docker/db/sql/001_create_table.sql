@@ -8,8 +8,7 @@ create table if not exists users (
 
 drop table if exists current_users;
 create table if not exists current_users (
-	`id`			int	not null primary key auto_increment,
-	`card_no`     	char(15) not null unique,
+	`card_no`     	char(15) not null primary key unique,
 	`date_touched` 	datetime null default current_timestamp,
 	index idx_current(card_no),
 	foreign key fk_current(card_no) references users(card_no)
