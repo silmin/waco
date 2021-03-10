@@ -20,7 +20,7 @@ spec:
           containerPort: 80
         env:
         - name: PMA_ARBITARY
-          value: 1
+          value: "1"
         - name: PMA_HOSTS
           value: mysql-svc.waco
         - name: PMA_USER
