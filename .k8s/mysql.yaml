@@ -16,7 +16,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: mysql
-          image: mysql:5.7
+          image: mysql
           ports:
           - name: mysql
             containerPort: 3306
@@ -27,7 +27,7 @@ spec:
           - name: MYSQL_ROOT_PASSWORD
             value: root
           - name: MYSQL_DATABASE
-            value: root_status
+            value: room_status
           - name: MYSQL_USER
             value: docker
           - name: MYSQL_PASSWORD
