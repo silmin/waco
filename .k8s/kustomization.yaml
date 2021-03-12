@@ -1,0 +1,4 @@
+resources:
+  - waco-web.yaml
+  - phpmyadmin.yaml
+  - mysql.yaml
