@@ -1,0 +1,13 @@
+- name: accessing-lab-enter
+  event: PushCurrentUserEvent
+  url: http://nenech.eleuth/accessing/enter
+  method: GET
+  params:
+      message: "Hi <display_name>"
+
+- name: accessing-lab-leave
+  event: PopCurrentUserEvent
+  url: http://nenech.eleuth/accessing/leave
+  method: GET
+  params:
+      message: "Bye <display_name>"
