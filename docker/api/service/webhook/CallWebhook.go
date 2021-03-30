@@ -78,6 +78,7 @@ func markToUserParams(s string, user room_user.User) string {
 	s = strings.ReplaceAll(s, "<card_no>", user.CardNo)
 	s = strings.ReplaceAll(s, "<display_name>", user.DisplayName)
 	s = strings.ReplaceAll(s, "<full_name>", user.FullName)
+	s = strings.ReplaceAll(s, "<pronunciation>", user.Pronunciation)
 	s = strings.ReplaceAll(s, "<email>", user.Email)
 	return s
 }
