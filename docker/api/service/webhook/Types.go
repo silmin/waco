@@ -16,6 +16,7 @@ type WebhookEventEnum int
 
 const (
 	RegisterUserEvent WebhookEventEnum = iota
+	UpdateUserEvent
 	DeleteUserEvent
 	PushCurrentUserEvent
 	PopCurrentUserEvent
@@ -27,6 +28,7 @@ func (e WebhookEventEnum) String() string {
 
 var toEventString = map[WebhookEventEnum]string{
 	RegisterUserEvent:    "RegisterUserEvent",
+	UpdateUserEvent:      "UpdateUserEvent",
 	DeleteUserEvent:      "DeleteUserEvent",
 	PushCurrentUserEvent: "PushCurrentUserEvent",
 	PopCurrentUserEvent:  "PopCurrentUserEvent",
@@ -34,6 +36,7 @@ var toEventString = map[WebhookEventEnum]string{
 
 var toEventID = map[string]WebhookEventEnum{
 	"RegisterUserEvent":    RegisterUserEvent,
+	"UpdateUserEvent":      UpdateUserEvent,
 	"DeleteUserEvent":      DeleteUserEvent,
 	"PushCurrentUserEvent": PushCurrentUserEvent,
 	"PopCurrentUserEvent":  PopCurrentUserEvent,
