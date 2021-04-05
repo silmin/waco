@@ -42,6 +42,7 @@ func main() {
 	e.GET("/users", service.GetAllUsers)
 	e.GET("/users/:cardNo", service.GetUser)
 	e.POST("/users/:cardNo", service.RegisterUser)
+	e.PUT("/users/:cardNo", service.UpdateUser)
 	e.DELETE("/users/:cardNo", service.DeleteUser)
 
 	e.GET("/currents", service.GetCurrentUsers)

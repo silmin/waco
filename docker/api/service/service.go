@@ -52,7 +52,6 @@ func RegisterUser(context echo.Context) error {
 	if err := context.Bind(&user); err != nil {
 		return err
 	}
-
 	user.CardNo = context.Param("cardNo")
 
 	if err := db.Create(&user).Error; err != nil {
@@ -62,6 +61,31 @@ func RegisterUser(context echo.Context) error {
 	log.Println("Create User:", user)
 
 	go webhook.CallWebhook(webhook.RegisterUserEvent, user)
+
+	json_data, _ := json.Marshal(user)
+	return context.String(http.StatusOK, string(json_data))
+}
+
+func UpdateUser(context echo.Context) error {
+	db := registry.ConnectDB()
+	defer db.Close()
+
+	user := room_user.User{}
+	cardNo := context.Param("cardNo")
+	if err := db.Find(&user, "card_no=?", cardNo).Error; err != nil {
+		return err
+	}
+	if err := context.Bind(&user); err != nil {
+		return err
+	}
+
+	if err := db.Model(&room_user.User{}).Where("card_no=?", cardNo).Updates(user).Error; err != nil {
+		return err
+	}
+
+	log.Println("Update User: ", user)
+
+	go webhook.CallWebhook(webhook.UpdateUserEvent, user)
 
 	json_data, _ := json.Marshal(user)
 	return context.String(http.StatusOK, string(json_data))
