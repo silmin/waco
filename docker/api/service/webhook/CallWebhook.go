@@ -11,9 +11,9 @@ import (
 
 func CallWebhook(webhookEvent WebhookEventEnum, user room_user.User) {
 	var errs []error
-	for _, rule := range WebhookRules {
+	for idx, rule := range WebhookRules {
 		if rule.Event == webhookEvent {
-			log.Println("Call Webhook: ", rule)
+			log.Println("Call Webhook", idx, ":", rule)
 			switch rule.Method {
 			case WebhookGET:
 				errs = append(errs, CallWebhookGET(rule, user))
@@ -24,8 +24,10 @@ func CallWebhook(webhookEvent WebhookEventEnum, user room_user.User) {
 	}
 
 	if len(errs) != 0 {
-		for _, err := range errs {
-			log.Println(err)
+		for idx, err := range errs {
+			if err != nil {
+				log.Println("Webhook Error", idx, ":", err)
+			}
 		}
 	}
 }
