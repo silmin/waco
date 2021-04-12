@@ -1,4 +1,5 @@
 stages:
+    - format
     - lint
     - build
     - sync
@@ -16,15 +17,11 @@ stages:
 #         - echo "clear env, logout cmd tool ..."
 
 variables:
-    APP_NAME: "waco"
     REGISTRY_REPO: "service/waco"
     INTERNAL_REGISTRY: "gitlab.eleuth:5000"
     INTERNAL_REGISTRY_URL: "http://$INTERNAL_REGISTRY/$REGISTRY_REPO"
     REMOTE_REGISTRY: "beatrice.eleuth"
     REMOTE_REGISTRY_URL: "http://$REMOTE_REGISTRY/$REGISTRY_REPO"
-    GITLAB: "gitlab.eleuth"
-    GITLAB_REPO: "eleuth/waco"
-    GITLAB_URL: "http://$GITLAB/$GITLAB_REPO"
 
 # hide job
 .lint-base:
@@ -39,11 +36,25 @@ variables:
         entrypoint: [""]
     stage: build
 
+.format-base:
+    image: beatrice.eleuth/runner-base/nettool-ubuntu
+    after_script:
+        - ./.ci-scripts/push-diff.sh
+    stage: format
+    only:
+        - pushes
+
 lint-yaml:
     extends:
         - .lint-base
     script:
         - ./.ci-scripts/lint.sh
+
+go-fmt:
+    extends:
+        - .format-base
+    script:
+        - go fmt ./...
 
 build-app:
     extends:
