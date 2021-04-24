@@ -132,13 +132,13 @@ func PushCurrentUser(context echo.Context) error {
 	defer db.Close()
 
 	cardNo := context.Param("cardNo")
-	currentUser := room_user.CurrentUser{CardNo: cardNo}
-	if err := db.Create(&currentUser).Error; err != nil {
+	user := room_user.User{}
+	if err := db.Find(&user, "card_no=?", cardNo).Error; err != nil {
 		return err
 	}
 
-	user := room_user.User{}
-	if err := db.Find(&user, "card_no=?", cardNo).Error; err != nil {
+	currentUser := room_user.CurrentUser{CardNo: cardNo}
+	if err := db.Create(&currentUser).Error; err != nil {
 		return err
 	}
 
