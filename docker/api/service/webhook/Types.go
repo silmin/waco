@@ -40,6 +40,10 @@ var toEventID = map[string]WebhookEventEnum{
 	"DeleteUserEvent":      DeleteUserEvent,
 	"PushCurrentUserEvent": PushCurrentUserEvent,
 	"PopCurrentUserEvent":  PopCurrentUserEvent,
+
+type WebhookError struct {
+	Name string
+	Err  error
 }
 
 func (e *WebhookEventEnum) UnmarshalYAML(unmarshal func(interface{}) error) error {

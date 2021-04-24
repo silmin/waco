@@ -10,33 +10,33 @@ import (
 )
 
 func CallWebhook(webhookEvent WebhookEventEnum, user room_user.User) {
-	var errs []error
-	for idx, rule := range WebhookRules {
+	var werrs []WebhookError
+	for _, rule := range WebhookRules {
 		if rule.Event == webhookEvent {
-			log.Println("Call Webhook", idx, ":", rule)
+			log.Println("Call Webhook :", rule.Name)
 			switch rule.Method {
 			case WebhookGET:
-				errs = append(errs, CallWebhookGET(rule, user))
+				werrs = append(werrs, CallWebhookGET(rule, user))
 			case WebhookPOST:
-				errs = append(errs, CallWebhookPOST(rule, user))
+				werrs = append(werrs, CallWebhookPOST(rule, user))
 			}
 		}
 	}
 
-	if len(errs) != 0 {
-		for idx, err := range errs {
-			if err != nil {
-				log.Println("Webhook Error", idx, ":", err)
+	if len(werrs) != 0 {
+		for _, werr := range werrs {
+			if werr.Err != nil {
+				log.Println("Webhook Error :", werr.Name, ":", werr.Err)
 			}
 		}
 	}
 }
 
-func CallWebhookGET(rule WebhookRule, user room_user.User) error {
+func CallWebhookGET(rule WebhookRule, user room_user.User) WebhookError {
 	url := markToUserParams(rule.Url, user)
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		return err
+		return WebhookError{rule.Name, err}
 	}
 
 	values := req.URL.Query()
@@ -48,13 +48,13 @@ func CallWebhookGET(rule WebhookRule, user room_user.User) error {
 	req.URL.RawQuery = values.Encode()
 
 	if _, err := http.DefaultClient.Do(req); err != nil {
-		return err
+		return WebhookError{rule.Name, err}
 	}
 
-	return nil
+	return WebhookError{rule.Name, nil}
 }
 
-func CallWebhookPOST(rule WebhookRule, user room_user.User) error {
+func CallWebhookPOST(rule WebhookRule, user room_user.User) WebhookError {
 	values := make(url.Values)
 	for k, v := range rule.Params {
 		key := markToUserParams(k, user)
@@ -66,14 +66,14 @@ func CallWebhookPOST(rule WebhookRule, user room_user.User) error {
 
 	req, err := http.NewRequest(http.MethodPost, url, strings.NewReader(values.Encode()))
 	if err != nil {
-		return err
+		return WebhookError{rule.Name, err}
 	}
 
 	if _, err := http.DefaultClient.Do(req); err != nil {
-		return err
+		return WebhookError{rule.Name, err}
 	}
 
-	return nil
+	return WebhookError{rule.Name, nil}
 }
 
 func markToUserParams(s string, user room_user.User) string {
