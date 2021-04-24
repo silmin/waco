@@ -20,6 +20,7 @@ const (
 	DeleteUserEvent
 	PushCurrentUserEvent
 	PopCurrentUserEvent
+	CurrentNoOneLeftEvent
 )
 
 func (e WebhookEventEnum) String() string {
@@ -27,19 +28,22 @@ func (e WebhookEventEnum) String() string {
 }
 
 var toEventString = map[WebhookEventEnum]string{
-	RegisterUserEvent:    "RegisterUserEvent",
-	UpdateUserEvent:      "UpdateUserEvent",
-	DeleteUserEvent:      "DeleteUserEvent",
-	PushCurrentUserEvent: "PushCurrentUserEvent",
-	PopCurrentUserEvent:  "PopCurrentUserEvent",
+	RegisterUserEvent:     "RegisterUserEvent",
+	UpdateUserEvent:       "UpdateUserEvent",
+	DeleteUserEvent:       "DeleteUserEvent",
+	PushCurrentUserEvent:  "PushCurrentUserEvent",
+	PopCurrentUserEvent:   "PopCurrentUserEvent",
+	CurrentNoOneLeftEvent: "CurrentNoOneLeftEvent",
 }
 
 var toEventID = map[string]WebhookEventEnum{
-	"RegisterUserEvent":    RegisterUserEvent,
-	"UpdateUserEvent":      UpdateUserEvent,
-	"DeleteUserEvent":      DeleteUserEvent,
-	"PushCurrentUserEvent": PushCurrentUserEvent,
-	"PopCurrentUserEvent":  PopCurrentUserEvent,
+	"RegisterUserEvent":     RegisterUserEvent,
+	"UpdateUserEvent":       UpdateUserEvent,
+	"DeleteUserEvent":       DeleteUserEvent,
+	"PushCurrentUserEvent":  PushCurrentUserEvent,
+	"PopCurrentUserEvent":   PopCurrentUserEvent,
+	"CurrentNoOneLeftEvent": CurrentNoOneLeftEvent,
+}
 
 type WebhookError struct {
 	Name string
