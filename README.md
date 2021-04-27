@@ -60,11 +60,12 @@ room status server
 
 ### WebHookEvent
 
-- RegisterUserEvent: ユーザ登録
-- UpdateUserEvent:  ユーザ更新
-- DeleteUserEvent: ユーザ削除
-- PushCurrentUserEvent: 入室
-- PopCurrentUserEvent: 退室
+- RegisterUserEvent: ユーザ登録時
+- UpdateUserEvent:  ユーザ更新時
+- DeleteUserEvent: ユーザ削除時
+- PushCurrentUserEvent: 入室時
+- PopCurrentUserEvent: 退室時
+- CurrentNoOneLeftEvent: 全員退室時
 
 ### Embedded mark
 
@@ -89,6 +90,8 @@ room status server
 
 `<display_name>` の部分が入室したuserのdisplay_nameに起き変わる
 
+
+`CurrentNoOneLeftEvent` については最後に退出したユーザの情報が渡される．
 
 ## Setup
 

@@ -132,13 +132,13 @@ func PushCurrentUser(context echo.Context) error {
 	defer db.Close()
 
 	cardNo := context.Param("cardNo")
-	currentUser := room_user.CurrentUser{CardNo: cardNo}
-	if err := db.Create(&currentUser).Error; err != nil {
+	user := room_user.User{}
+	if err := db.Find(&user, "card_no=?", cardNo).Error; err != nil {
 		return err
 	}
 
-	user := room_user.User{}
-	if err := db.Find(&user, "card_no=?", cardNo).Error; err != nil {
+	currentUser := room_user.CurrentUser{CardNo: cardNo}
+	if err := db.Create(&currentUser).Error; err != nil {
 		return err
 	}
 
@@ -154,19 +154,25 @@ func PopCurrentUser(context echo.Context) error {
 	db := registry.ConnectDB()
 	defer db.Close()
 
-	user := room_user.User{}
 	cardNo := context.Param("cardNo")
-	if err := db.Find(&user, "card_no=?", cardNo).Error; err != nil {
+	if err := db.Find(&room_user.CurrentUser{}, "card_no=?", cardNo).Error; err != nil {
 		return err
 	}
-
 	if err := db.Where("card_no=?", cardNo).Delete(&room_user.CurrentUser{}).Error; err != nil {
 		return err
 	}
 
+	user := room_user.User{}
+	if err := db.Find(&user, "card_no=?", cardNo).Error; err != nil {
+		return err
+	}
 	log.Println("Pop CurrentUser No:", cardNo)
-
 	go webhook.CallWebhook(webhook.PopCurrentUserEvent, user)
+
+	if rowc := db.Find(&room_user.CurrentUser{}).RowsAffected; rowc == 0 {
+		log.Println("No one left.")
+		go webhook.CallWebhook(webhook.CurrentNoOneLeftEvent, user)
+	}
 
 	return context.String(http.StatusOK, string(""))
 }
