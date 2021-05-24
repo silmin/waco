@@ -1,0 +1,13 @@
+- name: call-pronunciation-on-enter
+  event: PushCurrentUserEvent
+  url: http://pegion.eleuth/speech
+  method: GET
+  params:
+      text: "<pronunciation>さん、こんにちは。"
+
+- name: call-pronunciation-on-leave
+  event: PopCurrentUserEvent
+  url: http://pegion.eleuth/speech
+  method: GET
+  params:
+      text: "<pronunciation>さん、さようなら。"
