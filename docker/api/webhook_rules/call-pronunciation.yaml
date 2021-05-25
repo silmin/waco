@@ -4,6 +4,7 @@
   method: GET
   params:
       text: "<pronunciation>さん、こんにちは。"
+      prefix: "false"
 
 - name: call-pronunciation-on-leave
   event: PopCurrentUserEvent
@@ -11,3 +12,4 @@
   method: GET
   params:
       text: "<pronunciation>さん、さようなら。"
+      prefix: "false"
