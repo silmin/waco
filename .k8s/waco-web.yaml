@@ -37,4 +37,4 @@ spec:
   selector:
     app: waco-web
   type: LoadBalancer
-  loadBalancerIP: 192.168.20.32
+  loadBalancerIP: 192.168.10.32
