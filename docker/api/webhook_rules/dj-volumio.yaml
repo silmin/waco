@@ -1,0 +1,12 @@
+- name: add-playlist
+  event: PushCurrentUserEvent
+  url: http://dj-volumio.eleuth/addToQueue/<playlist>
+  method: GET
+  params:
+
+- name: clear-queue
+  event: CurrentNoOneLeftEvent
+  url: http://miku.eleuth/api/v1/commands/
+  method: GET
+  params:
+      cmd: "clearQueue"
