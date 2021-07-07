@@ -5,6 +5,7 @@ type User struct {
 	DisplayName   string `json:"display_name" form:"display_name" query:"display_name"`
 	FullName      string `json:"full_name" form:"full_name" query:"full_name"`
 	Pronunciation string `json:"pronunciation" form:"pronunciation" query:"pronunciation"`
+	Playlist      string `json:"playlist" form:"playlist" query:"playlist"`
 	Email         string `json:"email" form:"email" query:"email"`
 }
 

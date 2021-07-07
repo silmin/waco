@@ -4,6 +4,7 @@ create table if not exists users (
 	`display_name` 		varchar(50) default null,
 	`full_name`    		varchar(50) default null,
 	`pronunciation` 	varchar(100) default null,
+	`playlist` 			varchar(100) default null,
 	`email`       		varchar(255) default null
 ) default CHARSET=utf8 COLLATE=utf8_bin;
 
