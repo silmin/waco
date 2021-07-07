@@ -69,11 +69,12 @@ room status server
 
 ### Embedded mark
 
-- `<card_no>`
-- `<display_name>`
-- `<full_name>`
-- `<pronunciation>`
-- `<email>`
+- `<card_no>` : 学籍番号
+- `<display_name>` : 表示名
+- `<full_name>` : フルネーム
+- `<pronunciation>` : 読み方
+- `<playlist>` : Volumioのプレイリスト名
+- `<email>` : email
 
 これらを埋め込むと，WebHookEventに紐づいたユーザの情報を使うことができる．
 （例えば，userAが入室したときの `PushCurrentUserEvent` によって発生するWebHookに， `<card_no>` を書くと，そこがuserAのカード番号に置き換わる）
