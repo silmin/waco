@@ -1,0 +1,5 @@
+- name: add-playlist
+  event: PushCurrentUserEvent
+  url: http://dj-volumio.eleuth/addToQueue/<playlist>
+  method: GET
+  params:
